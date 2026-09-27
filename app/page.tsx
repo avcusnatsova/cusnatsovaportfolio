@@ -9,7 +9,7 @@ export default function Home() {
   const [activeSection, setActiveSection] = useState('hero');
   const [currentStatus, setCurrentStatus] = useState('Building software & AI apps');
   const [expandedAbout, setExpandedAbout] = useState(false);
-  const [expandedProjects, setExpandedProjects] = useState<string[]>(['ecoproof', 'mental-health']);
+  const [expandedProjects, setExpandedProjects] = useState<string[]>(['trustistics', 'ecoproof', 'mental-health']);
   const [mobileNavOpen, setMobileNavOpen] = useState(false);
   const [formData, setFormData] = useState({
     name: '',
@@ -243,8 +243,8 @@ export default function Home() {
         <div className="max-w-4xl mx-auto mt-16 w-full">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
             {[
-              { label: 'Projects', value: '2+', color: 'from-[var(--violet-500)] to-[var(--violet-600)]' },
-              { label: 'Certifications', value: '4', color: 'from-[var(--violet-600)] to-[var(--fuchsia-500)]' },
+              { label: 'Projects', value: '5+', color: 'from-[var(--violet-500)] to-[var(--violet-600)]' },
+              { label: 'Certifications', value: '20+', color: 'from-[var(--violet-600)] to-[var(--fuchsia-500)]' },
               { label: 'LeetCode', value: '300+', color: 'from-[var(--fuchsia-500)] to-[var(--violet-500)]' },
               { label: 'CGPA', value: '9.07/10', color: 'from-[var(--violet-400)] to-[var(--violet-600)]' }
             ].map((stat, index) => (
@@ -390,7 +390,55 @@ export default function Home() {
           <h2 className="section-heading mb-10 animate-on-scroll">Featured Projects</h2>
 
           <div className="space-y-6">
-            {/* Project 1: EcoProof */}
+            {/* Project 1: Trustistics */}
+            <div className="card-base card-hover p-6 animate-on-scroll">
+              <div className="flex items-start gap-5">
+                <div className="w-14 h-14 bg-gradient-to-br from-[var(--violet-500)] to-[var(--indigo-500)] rounded-xl flex items-center justify-center flex-shrink-0 text-2xl shadow-lg shadow-[var(--glow-violet)]/20">
+                  ⛓️
+                </div>
+                <div className="flex-1">
+                  <div className="flex items-center justify-between gap-2 mb-2">
+                    <div>
+                      <h3 className="text-xl font-semibold text-[var(--text-primary)]">Trustistics</h3>
+                      <p className="text-xs text-[var(--violet-300)] font-medium">Blockchain-Powered Cold-Chain Provenance System</p>
+                    </div>
+                    <button
+                      onClick={() => toggleProject('trustistics')}
+                      className="text-sm text-[var(--violet-400)] hover:text-[var(--violet-300)] transition-colors px-2.5 py-1 rounded-lg hover:bg-[var(--hover-bg)] flex items-center gap-1"
+                      aria-label="Toggle Project Details"
+                    >
+                      <span>{expandedProjects.includes('trustistics') ? '▼ Collapse' : '▶ Expand'}</span>
+                    </button>
+                  </div>
+
+                  <div className="mt-3 mb-4">
+                    <p className="text-[var(--text-secondary)] text-sm leading-relaxed">
+                      Blockchain-powered cold-chain provenance system that uses IoT sensor data and Ethereum smart contracts to provide tamper-resistant tracking of temperature-sensitive products throughout the supply chain.
+                    </p>
+                  </div>
+
+                  <div className={`${expandedProjects.includes('trustistics') ? '' : 'hidden'} transition-all`}>
+                    <div className="mb-4 p-4 rounded-xl bg-[var(--background-elevated)] border border-[var(--card-border)] space-y-2">
+                      <div className="text-xs font-semibold uppercase tracking-wider text-[var(--violet-400)]">Key Features &amp; Provenance Tracking</div>
+                      <ul className="text-[var(--text-secondary)] text-sm list-disc pl-4 space-y-1">
+                        <li>IoT-based temperature monitoring with SHA-256 anchoring of sensor readings and document handoffs.</li>
+                        <li>Dynamic temperature breach &amp; risk scoring with QR-based verification of product history to eliminate manual data-entry loopholes.</li>
+                      </ul>
+                    </div>
+                  </div>
+
+                  <div className="flex flex-wrap gap-2 mt-4">
+                    {['Java', 'Spring Boot', 'REST APIs', 'Ethereum', 'Web3j', 'PostgreSQL', 'IoT', 'Blockchain'].map((tech) => (
+                      <span key={tech} className="px-2.5 py-1 bg-[var(--background-elevated)] border border-[var(--card-border)] rounded-lg text-xs font-mono text-[var(--text-secondary)] font-medium">
+                        {tech}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Project 2: EcoProof */}
             <div className="card-base card-hover p-6 animate-on-scroll">
               <div className="flex items-start gap-5">
                 <div className="w-14 h-14 bg-gradient-to-br from-[var(--violet-500)] to-[var(--violet-700)] rounded-xl flex items-center justify-center flex-shrink-0 text-2xl shadow-lg shadow-[var(--glow-violet)]/20">
