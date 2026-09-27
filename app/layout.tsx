@@ -14,8 +14,8 @@ const jetbrainsMono = JetBrains_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Cusnat Sova | Data Science & ML Engineer",
-  description: "Portfolio of Cusnat Sova - Data Science & Machine Learning Engineer. Python Developer, CGPA 9.0+, Pre-Final Year CSE.",
+  title: "A V Cusnat Sova | Software Engineer",
+  description: "Portfolio of A V Cusnat Sova, a Computer Science Engineering student building software and AI-powered applications with Java, Python, SQL, and modern web technologies.",
 };
 
 export default function RootLayout({

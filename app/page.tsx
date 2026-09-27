@@ -7,9 +7,9 @@ import CanvasCursor from '@/components/CanvasCursor';
 
 export default function Home() {
   const [activeSection, setActiveSection] = useState('hero');
-  const [currentStatus, setCurrentStatus] = useState('Building ML systems');
+  const [currentStatus, setCurrentStatus] = useState('Building software & AI apps');
   const [expandedAbout, setExpandedAbout] = useState(false);
-  const [expandedProjects, setExpandedProjects] = useState<string[]>([]);
+  const [expandedProjects, setExpandedProjects] = useState<string[]>(['ecoproof', 'mental-health']);
   const [mobileNavOpen, setMobileNavOpen] = useState(false);
   const [formData, setFormData] = useState({
     name: '',
@@ -19,14 +19,14 @@ export default function Home() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitStatus, setSubmitStatus] = useState<'idle' | 'success' | 'error'>('idle');
 
-  const statusMessages = [
-    'Building ML systems',
-    'Optimizing algorithms',
-    'Processing data streams',
-    'Training neural networks'
-  ];
-
   useEffect(() => {
+    const statusMessages = [
+      'Building software & AI apps',
+      'Solving DSA problems',
+      'Designing database systems',
+      'Developing with Java & Python'
+    ];
+
     const statusInterval = setInterval(() => {
       setCurrentStatus(statusMessages[Math.floor(Math.random() * statusMessages.length)]);
     }, 4000);
@@ -36,12 +36,12 @@ export default function Home() {
 
   useEffect(() => {
     const handleScroll = () => {
-      const sections = ['hero', 'about', 'skills', 'projects', 'experience', 'contact'];
+      const sections = ['hero', 'about', 'skills', 'projects', 'experience', 'achievements', 'contact'];
       const currentSection = sections.find(section => {
         const element = document.getElementById(section);
         if (element) {
           const rect = element.getBoundingClientRect();
-          return rect.top <= 100 && rect.bottom >= 100;
+          return rect.top <= 120 && rect.bottom >= 100;
         }
         return false;
       });
@@ -53,7 +53,7 @@ export default function Home() {
       const animatedElements = document.querySelectorAll('.animate-on-scroll');
       animatedElements.forEach(element => {
         const rect = element.getBoundingClientRect();
-        const isVisible = rect.top < window.innerHeight && rect.bottom > 0;
+        const isVisible = rect.top < window.innerHeight * 0.9 && rect.bottom > 0;
         if (isVisible) {
           element.classList.add('visible');
         }
@@ -105,8 +105,6 @@ export default function Home() {
         body: JSON.stringify(formData),
       });
 
-      const result = await response.json();
-
       if (response.ok) {
         setSubmitStatus('success');
         setFormData({ name: '', email: '', message: '' });
@@ -121,9 +119,8 @@ export default function Home() {
     }
   };
 
-  const navItems = ['About', 'Skills', 'Projects', 'Experience', 'Contact'];
-
-  const heroName = 'Cusnat Sova A V';
+  const navItems = ['About', 'Skills', 'Projects', 'Experience', 'Achievements', 'Contact'];
+  const heroName = 'A V Cusnat Sova';
 
   return (
     <div className="min-h-screen text-text-primary relative">
@@ -131,15 +128,16 @@ export default function Home() {
       <SparkleParticles />
       <CanvasCursor />
       <CursorSpotlight />
+
       {/* Premium Navigation - glass + violet accents */}
       <nav className="fixed top-0 w-full bg-[var(--background-elevated)]/80 backdrop-blur-xl border-b border-[var(--card-border)] z-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-16">
-            <div className="flex items-center space-x-2">
+            <div className="flex items-center space-x-3 cursor-pointer" onClick={() => scrollToSection('hero')}>
               <div className="w-9 h-9 bg-gradient-to-br from-[var(--violet-500)] to-[var(--violet-700)] rounded-xl flex items-center justify-center shadow-lg shadow-[var(--glow-violet)]/30">
                 <span className="text-white font-bold text-sm">CS</span>
               </div>
-              <span className="font-semibold text-gradient text-lg">Cusnat Sova A V</span>
+              <span className="font-semibold text-gradient text-lg">A V Cusnat Sova</span>
             </div>
 
             {/* Desktop Nav */}
@@ -166,6 +164,7 @@ export default function Home() {
             <button
               onClick={() => setMobileNavOpen(!mobileNavOpen)}
               className="md:hidden p-2 rounded-lg text-[var(--text-secondary)] hover:text-[var(--violet-300)] hover:bg-[var(--hover-bg)]"
+              aria-label="Toggle Navigation"
             >
               {mobileNavOpen ? '✕' : '☰'}
             </button>
@@ -194,28 +193,37 @@ export default function Home() {
         )}
       </nav>
 
-      {/* Hero Section - Name-forward, centered */}
-      <section id="hero" className="relative min-h-[85vh] flex flex-col justify-center pt-24 pb-20 px-4 sm:px-6 lg:px-8">
+      {/* Hero Section */}
+      <section id="hero" className="relative min-h-[85vh] flex flex-col justify-center pt-28 pb-20 px-4 sm:px-6 lg:px-8">
         <div className="max-w-4xl mx-auto text-center">
+          {/* Live Status Badge */}
+          <div className="inline-flex items-center gap-2.5 px-4 py-1.5 rounded-full bg-[var(--background-elevated)] border border-[var(--card-border)] text-xs text-[var(--violet-300)] mb-6 animate-on-scroll">
+            <span className="status-dot" />
+            <span>Currently: {currentStatus}</span>
+          </div>
+
           <h1 className="text-5xl sm:text-6xl md:text-7xl font-bold tracking-tight overflow-hidden">
             <span className="inline-flex flex-wrap justify-center text-[var(--violet-200)] drop-shadow-lg">
               {heroName.split('').map((char, i) => (
                 <span
                   key={i}
                   className={`letter-reveal ${char === ' ' ? 'space' : ''}`}
-                  style={{ animationDelay: `${i * 0.05}s` }}
+                  style={{ animationDelay: `${i * 0.04}s` }}
                 >
                   {char}
                 </span>
               ))}
             </span>
           </h1>
-          <p className="text-lg sm:text-xl text-[var(--text-primary)]/90 mt-4 animate-on-scroll">
-            CSE Student | Data Science & ML Engineer | Python Developer
+
+          <p className="text-lg sm:text-xl font-medium text-[var(--violet-300)] mt-4 animate-on-scroll">
+            Computer Science Engineering Student | Software Engineer | Java &amp; AI Developer
           </p>
-          <p className="text-sm text-[var(--text-muted)] mt-2 animate-on-scroll">
-            
+
+          <p className="text-base text-[var(--text-secondary)] max-w-2xl mx-auto mt-3 animate-on-scroll">
+            Building software and AI-powered applications with Java, Python, SQL, and modern web technologies.
           </p>
+
           <div className="flex flex-wrap items-center justify-center gap-3 mt-8 animate-on-scroll">
             <button onClick={() => scrollToSection('projects')} className="btn-primary inline-flex items-center gap-2">
               View Projects
@@ -232,13 +240,13 @@ export default function Home() {
         </div>
 
         {/* Quick Stats */}
-        <div className="max-w-4xl mx-auto mt-16">
+        <div className="max-w-4xl mx-auto mt-16 w-full">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
             {[
-              { label: 'Projects', value: '5+', color: 'from-[var(--violet-500)] to-[var(--violet-600)]' },
-              { label: 'Certifications', value: '10+', color: 'from-[var(--violet-600)] to-[var(--fuchsia-500)]' },
-              { label: 'LeetCode', value: '100+', color: 'from-[var(--fuchsia-500)] to-[var(--violet-500)]' },
-              { label: 'Experience', value: '1+ Year', color: 'from-[var(--violet-400)] to-[var(--violet-600)]' }
+              { label: 'Projects', value: '2+', color: 'from-[var(--violet-500)] to-[var(--violet-600)]' },
+              { label: 'Certifications', value: '4', color: 'from-[var(--violet-600)] to-[var(--fuchsia-500)]' },
+              { label: 'LeetCode', value: '300+', color: 'from-[var(--fuchsia-500)] to-[var(--violet-500)]' },
+              { label: 'CGPA', value: '9.07/10', color: 'from-[var(--violet-400)] to-[var(--violet-600)]' }
             ].map((stat, index) => (
               <div key={index} className="stat-card card-base p-5 text-center animate-on-scroll">
                 <div className={`text-2xl font-bold bg-gradient-to-r ${stat.color} bg-clip-text text-transparent`}>{stat.value}</div>
@@ -247,11 +255,6 @@ export default function Home() {
             ))}
           </div>
         </div>
-        {/* <div className="absolute bottom-6 left-1/2 -translate-x-1/2 animate-bounce opacity-50">
-          <div className="w-6 h-10 rounded-full border-2 border-[var(--violet-500)]/50 flex justify-center pt-2">
-            <div className="w-1.5 h-2 rounded-full bg-[var(--violet-400)]/70" />
-          </div>
-        </div> */}
       </section>
 
       {/* About Section */}
@@ -259,49 +262,67 @@ export default function Home() {
         <div className="max-w-7xl mx-auto">
           <h2 className="section-heading mb-10 animate-on-scroll">About Me</h2>
 
-          <div className="card-base card-hover p-8 mb-6 animate-on-scroll">
+          <div className="card-base card-hover p-8 mb-8 animate-on-scroll">
             <div className="prose prose-invert max-w-none">
-              <p className="text-[var(--text-primary)] mb-4 text-[1.05rem] leading-relaxed">
-                I&apos;m a Computer Science Engineering student with a deep passion for Data Science and Machine Learning.
-                My journey began with curiosity about how data can tell stories and predict outcomes, which evolved into
-                building practical AI systems that solve real-world problems.
+              <p className="text-[var(--text-primary)] mb-6 text-[1.05rem] leading-relaxed">
+                Final-year Computer Science Engineering student with a 9.07/10 CGPA and 300+ LeetCode problems solved, with hands-on experience developing software and AI-powered applications using Java, Python, SQL, and databases. Strong foundation in data structures and algorithms, OOP, databases, and software development, with experience building, testing, and debugging applications through internships and academic projects.
               </p>
 
-              <div className="mb-4">
+              {/* Problem-Solving Approach Accordion */}
+              <div className="mb-6 p-4 rounded-xl bg-[var(--background-elevated)] border border-[var(--card-border)]">
                 <button
-                  className="text-sm font-semibold text-[var(--violet-400)] hover:text-[var(--violet-300)] transition-colors flex items-center gap-2"
+                  className="text-sm font-semibold text-[var(--violet-300)] hover:text-[var(--violet-200)] transition-colors flex items-center gap-2 w-full text-left"
                   onClick={() => setExpandedAbout(!expandedAbout)}
                 >
-                  {expandedAbout ? '▼' : '▶'} My Problem-Solving Approach
+                  <span className="text-xs">{expandedAbout ? '▼' : '▶'}</span>
+                  <span>My Problem-Solving Approach</span>
                 </button>
-                <div className={`mt-3 text-sm text-[var(--text-secondary)] pl-4 border-l-2 border-[var(--violet-500)]/30 ${expandedAbout ? '' : 'hidden'}`}>
-                  I believe in breaking down complex problems into manageable components.
-                  Whether it&apos;s analyzing terrain features for landslide prediction or
-                  designing recommendation systems, I start with understanding the core problem domain.
+                <div className={`mt-3 text-sm text-[var(--text-secondary)] pl-4 border-l-2 border-[var(--violet-500)] ${expandedAbout ? '' : 'hidden'}`}>
+                  I approach problems by breaking them into smaller components, understanding the core requirements, selecting appropriate data structures and algorithms, and iteratively testing and debugging the solution.
                 </div>
               </div>
 
-              <p className="text-[var(--text-primary)] text-[1.05rem] leading-relaxed">
-                I believe in writing clean, efficient code and approaching problems with analytical thinking. My academic
-                excellence (CGPA 9.0+) reflects my commitment to fundamentals, while my projects show
-                my ability to apply these concepts in practice.
-              </p>
+              {/* Education Grid */}
+              <h3 className="text-lg font-semibold mb-4 text-[var(--violet-300)]">Education</h3>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div className="p-5 bg-[var(--background-elevated)] border border-[var(--card-border)] rounded-xl">
+                  <div className="flex items-center justify-between mb-2">
+                    <span className="text-xs px-2.5 py-1 rounded-md bg-[var(--violet-950)] text-[var(--violet-300)] border border-[var(--violet-800)] font-medium">2023 – 2027</span>
+                    <span className="text-sm font-bold text-[var(--violet-300)]">CGPA: 9.07/10</span>
+                  </div>
+                  <h4 className="font-semibold text-[var(--text-primary)]">Panimalar Engineering College</h4>
+                  <p className="text-xs text-[var(--text-muted)]">Chennai, Tamil Nadu • Anna University</p>
+                  <p className="text-sm text-[var(--text-secondary)] mt-2 font-medium">B.E. Computer Science &amp; Engineering</p>
+                </div>
+
+                <div className="p-5 bg-[var(--background-elevated)] border border-[var(--card-border)] rounded-xl">
+                  <div className="flex items-center justify-between mb-2">
+                    <span className="text-xs px-2.5 py-1 rounded-md bg-[var(--violet-950)] text-[var(--violet-300)] border border-[var(--violet-800)] font-medium">Schooling</span>
+                    <span className="text-sm font-bold text-[var(--violet-300)]">Class X: 100% | Class XII: 88%</span>
+                  </div>
+                  <h4 className="font-semibold text-[var(--text-primary)]">Bell Matric Higher Secondary School</h4>
+                  <p className="text-xs text-[var(--text-muted)]">Tirunelveli, Tamil Nadu</p>
+                  <p className="text-sm text-[var(--text-secondary)] mt-2 font-medium">Higher Secondary Education (2020–2023)</p>
+                </div>
+              </div>
             </div>
           </div>
         </div>
       </section>
 
-      {/* Skills Section - Violet skill tags */}
+      {/* Technical Skills Section */}
       <section id="skills" className="py-20 px-4 sm:px-6 lg:px-8">
         <div className="max-w-7xl mx-auto">
           <h2 className="section-heading mb-10 animate-on-scroll">Technical Skills</h2>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             <div className="card-base card-hover p-6 animate-on-scroll">
-              <h3 className="text-lg font-semibold mb-4 text-[var(--violet-300)]">Languages</h3>
+              <h3 className="text-lg font-semibold mb-4 text-[var(--violet-300)] flex items-center gap-2">
+                <span>💻</span> Languages
+              </h3>
               <div className="flex flex-wrap gap-2">
-                {['Python', 'C', 'Java', 'HTML/CSS', 'SQL'].map((skill) => (
-                  <span key={skill} className="skill-tag px-3 py-1.5 bg-[var(--background-elevated)] border border-[var(--card-border)] rounded-lg text-sm text-[var(--text-secondary)]">
+                {['Java', 'Python', 'SQL'].map((skill) => (
+                  <span key={skill} className="skill-tag px-3.5 py-1.5 bg-[var(--background-elevated)] border border-[var(--card-border)] rounded-lg text-sm font-medium text-[var(--text-secondary)]">
                     {skill}
                   </span>
                 ))}
@@ -309,10 +330,12 @@ export default function Home() {
             </div>
 
             <div className="card-base card-hover p-6 animate-on-scroll">
-              <h3 className="text-lg font-semibold mb-4 text-[var(--fuchsia-400)]">ML & AI</h3>
+              <h3 className="text-lg font-semibold mb-4 text-[var(--fuchsia-400)] flex items-center gap-2">
+                <span>🌐</span> Web &amp; Frameworks
+              </h3>
               <div className="flex flex-wrap gap-2">
-                {['Machine Learning', 'Deep Learning', 'Computer Vision', 'NLP', 'BERT'].map((skill) => (
-                  <span key={skill} className="skill-tag px-3 py-1.5 bg-[var(--background-elevated)] border border-[var(--card-border)] rounded-lg text-sm text-[var(--text-secondary)]">
+                {['HTML5', 'CSS3', 'JavaScript', 'React'].map((skill) => (
+                  <span key={skill} className="skill-tag px-3.5 py-1.5 bg-[var(--background-elevated)] border border-[var(--card-border)] rounded-lg text-sm font-medium text-[var(--text-secondary)]">
                     {skill}
                   </span>
                 ))}
@@ -320,10 +343,38 @@ export default function Home() {
             </div>
 
             <div className="card-base card-hover p-6 animate-on-scroll">
-              <h3 className="text-lg font-semibold mb-4 text-[var(--indigo-400)]">Tools</h3>
+              <h3 className="text-lg font-semibold mb-4 text-[var(--indigo-400)] flex items-center gap-2">
+                <span>🛠️</span> Databases &amp; Tools
+              </h3>
               <div className="flex flex-wrap gap-2">
-                {['Git', 'Jupyter', 'Dash/Plotly', 'MySQL', 'OpenCV'].map((skill) => (
-                  <span key={skill} className="skill-tag px-3 py-1.5 bg-[var(--background-elevated)] border border-[var(--card-border)] rounded-lg text-sm text-[var(--text-secondary)]">
+                {['MySQL', 'MongoDB', 'Git', 'Android Studio', 'VS Code', 'Jupyter Notebook'].map((skill) => (
+                  <span key={skill} className="skill-tag px-3.5 py-1.5 bg-[var(--background-elevated)] border border-[var(--card-border)] rounded-lg text-sm font-medium text-[var(--text-secondary)]">
+                    {skill}
+                  </span>
+                ))}
+              </div>
+            </div>
+
+            <div className="card-base card-hover p-6 animate-on-scroll md:col-span-2 lg:col-span-2">
+              <h3 className="text-lg font-semibold mb-4 text-[var(--violet-300)] flex items-center gap-2">
+                <span>📚</span> Core Subject Proficiencies
+              </h3>
+              <div className="flex flex-wrap gap-2">
+                {['Data Structures & Algorithms', 'OOP', 'DBMS', 'Operating Systems', 'Computer Networks', 'SDLC'].map((skill) => (
+                  <span key={skill} className="skill-tag px-3.5 py-1.5 bg-[var(--background-elevated)] border border-[var(--card-border)] rounded-lg text-sm font-medium text-[var(--text-secondary)]">
+                    {skill}
+                  </span>
+                ))}
+              </div>
+            </div>
+
+            <div className="card-base card-hover p-6 animate-on-scroll">
+              <h3 className="text-lg font-semibold mb-4 text-[var(--fuchsia-400)] flex items-center gap-2">
+                <span>🌟</span> Soft Skills
+              </h3>
+              <div className="flex flex-wrap gap-2">
+                {['Problem Solving', 'Analytical Thinking', 'Leadership', 'Team Collaboration', 'Communication'].map((skill) => (
+                  <span key={skill} className="skill-tag px-3.5 py-1.5 bg-[var(--background-elevated)] border border-[var(--card-border)] rounded-lg text-sm font-medium text-[var(--text-secondary)]">
                     {skill}
                   </span>
                 ))}
@@ -339,82 +390,94 @@ export default function Home() {
           <h2 className="section-heading mb-10 animate-on-scroll">Featured Projects</h2>
 
           <div className="space-y-6">
+            {/* Project 1: EcoProof */}
             <div className="card-base card-hover p-6 animate-on-scroll">
               <div className="flex items-start gap-5">
                 <div className="w-14 h-14 bg-gradient-to-br from-[var(--violet-500)] to-[var(--violet-700)] rounded-xl flex items-center justify-center flex-shrink-0 text-2xl shadow-lg shadow-[var(--glow-violet)]/20">
-                  🏔️
+                  🌱
                 </div>
                 <div className="flex-1">
-                  <div className="flex items-center justify-between gap-2 mb-3">
-                    <h3 className="text-xl font-semibold text-[var(--text-primary)]">Landslide Risk Prediction System</h3>
+                  <div className="flex items-center justify-between gap-2 mb-2">
+                    <div>
+                      <h3 className="text-xl font-semibold text-[var(--text-primary)]">EcoProof</h3>
+                      <p className="text-xs text-[var(--violet-300)] font-medium">AI-Powered Industrial Pollution Monitoring Platform</p>
+                    </div>
                     <button
-                      onClick={() => toggleProject('landslide')}
-                      className="text-sm text-[var(--violet-400)] hover:text-[var(--violet-300)] transition-colors px-2 py-1 rounded-lg hover:bg-[var(--hover-bg)]"
+                      onClick={() => toggleProject('ecoproof')}
+                      className="text-sm text-[var(--violet-400)] hover:text-[var(--violet-300)] transition-colors px-2.5 py-1 rounded-lg hover:bg-[var(--hover-bg)] flex items-center gap-1"
+                      aria-label="Toggle Project Details"
                     >
-                      {expandedProjects.includes('landslide') ? '▼' : '▶'}
+                      <span>{expandedProjects.includes('ecoproof') ? '▼ Collapse' : '▶ Expand'}</span>
                     </button>
                   </div>
 
-                  <div className="mb-4">
-                    <div className="text-sm font-medium text-[var(--violet-400)] mb-1">Problem</div>
-                    <p className="text-[var(--text-secondary)]">Develop a system to predict landslide risks using geospatial data and computer vision techniques.</p>
+                  <div className="mt-3 mb-4">
+                    <p className="text-[var(--text-secondary)] text-sm leading-relaxed">
+                      Built an AI-powered platform processing 1,200+ simulated emission data points, with an ML model detecting abnormal pollution patterns at 92% accuracy.
+                    </p>
                   </div>
 
-                  <div className={`${expandedProjects.includes('landslide') ? '' : 'hidden'}`}>
-                    <div className="mb-4">
-                      <div className="text-sm font-medium text-[var(--violet-400)] mb-1">Approach</div>
-                      <p className="text-[var(--text-secondary)]">Utilized Python and OpenCV to analyze terrain features, implemented ML models for risk assessment, and created visualization dashboards.</p>
-                    </div>
-                    <div className="mb-4">
-                      <div className="text-sm font-medium text-[var(--violet-400)] mb-1">Outcome</div>
-                      <p className="text-[var(--text-secondary)]">Achieved 85% accuracy in risk prediction with real-time processing capabilities for disaster management.</p>
+                  <div className={`${expandedProjects.includes('ecoproof') ? '' : 'hidden'} transition-all`}>
+                    <div className="mb-4 p-4 rounded-xl bg-[var(--background-elevated)] border border-[var(--card-border)] space-y-2">
+                      <div className="text-xs font-semibold uppercase tracking-wider text-[var(--violet-400)]">Smart Contract & Compliance Integration</div>
+                      <p className="text-[var(--text-secondary)] text-sm">
+                        Integrated Ethereum/Solidity smart contracts through a RESTful API layer for tamper-proof compliance records, reducing audit verification time by 60%.
+                      </p>
                     </div>
                   </div>
 
-                  <div className="flex flex-wrap gap-2">
-                    {['Python', 'OpenCV', 'Geospatial Analysis', 'Machine Learning'].map((tech) => (
-                      <span key={tech} className="px-2.5 py-1 bg-[var(--background-elevated)] border border-[var(--card-border)] rounded-lg text-xs font-mono text-[var(--text-muted)]">{tech}</span>
+                  <div className="flex flex-wrap gap-2 mt-4">
+                    {['Python', 'FastAPI', 'Machine Learning', 'Web3', 'JavaScript'].map((tech) => (
+                      <span key={tech} className="px-2.5 py-1 bg-[var(--background-elevated)] border border-[var(--card-border)] rounded-lg text-xs font-mono text-[var(--text-secondary)] font-medium">
+                        {tech}
+                      </span>
                     ))}
                   </div>
                 </div>
               </div>
             </div>
 
+            {/* Project 2: Teen Mental Health Dashboard */}
             <div className="card-base card-hover p-6 animate-on-scroll">
               <div className="flex items-start gap-5">
                 <div className="w-14 h-14 bg-gradient-to-br from-[var(--violet-600)] to-[var(--fuchsia-500)] rounded-xl flex items-center justify-center flex-shrink-0 text-2xl shadow-lg shadow-[var(--glow-fuchsia)]/20">
-                  🏥
+                  🧠
                 </div>
                 <div className="flex-1">
-                  <div className="flex items-center justify-between gap-2 mb-3">
-                    <h3 className="text-xl font-semibold text-[var(--text-primary)]">Thyroid Diet Recommendation System</h3>
+                  <div className="flex items-center justify-between gap-2 mb-2">
+                    <div>
+                      <h3 className="text-xl font-semibold text-[var(--text-primary)]">Teen Mental Health Dashboard</h3>
+                      <p className="text-xs text-[var(--fuchsia-400)] font-medium">Data-Driven Teen Mental Health Risk Analytics</p>
+                    </div>
                     <button
-                      onClick={() => toggleProject('thyroid')}
-                      className="text-sm text-[var(--violet-400)] hover:text-[var(--violet-300)] transition-colors px-2 py-1 rounded-lg hover:bg-[var(--hover-bg)]"
+                      onClick={() => toggleProject('mental-health')}
+                      className="text-sm text-[var(--violet-400)] hover:text-[var(--violet-300)] transition-colors px-2.5 py-1 rounded-lg hover:bg-[var(--hover-bg)] flex items-center gap-1"
+                      aria-label="Toggle Project Details"
                     >
-                      {expandedProjects.includes('thyroid') ? '▼' : '▶'}
+                      <span>{expandedProjects.includes('mental-health') ? '▼ Collapse' : '▶ Expand'}</span>
                     </button>
                   </div>
 
-                  <div className="mb-4">
-                    <div className="text-sm font-medium text-[var(--violet-400)] mb-1">Problem</div>
-                    <p className="text-[var(--text-secondary)]">Create an intelligent system to recommend personalized diet plans for thyroid patients based on their medical conditions.</p>
+                  <div className="mt-3 mb-4">
+                    <p className="text-[var(--text-secondary)] text-sm leading-relaxed">
+                      Developed a data-driven dashboard to analyze teen mental health risks using messaging patterns, social media activity, and BERT-based sentiment analysis.
+                    </p>
                   </div>
 
-                  <div className={`${expandedProjects.includes('thyroid') ? '' : 'hidden'}`}>
-                    <div className="mb-4">
-                      <div className="text-sm font-medium text-[var(--violet-400)] mb-1">Approach</div>
-                      <p className="text-[var(--text-secondary)]">Developed a Python-based decision support system with rule-based algorithms and patient data analysis for dietary recommendations.</p>
-                    </div>
-                    <div className="mb-4">
-                      <div className="text-sm font-medium text-[var(--violet-400)] mb-1">Outcome</div>
-                      <p className="text-[var(--text-secondary)]">Successfully implemented with 90% patient satisfaction rate and integration with healthcare providers.</p>
+                  <div className={`${expandedProjects.includes('mental-health') ? '' : 'hidden'} transition-all`}>
+                    <div className="mb-4 p-4 rounded-xl bg-[var(--background-elevated)] border border-[var(--card-border)] space-y-2">
+                      <div className="text-xs font-semibold uppercase tracking-wider text-[var(--fuchsia-400)]">Monitoring &amp; Interactive Visualization</div>
+                      <p className="text-[var(--text-secondary)] text-sm">
+                        Implemented risk trend monitoring, behavioral insights, and interactive visualizations to track depression, anxiety, and self-harm indicators.
+                      </p>
                     </div>
                   </div>
 
-                  <div className="flex flex-wrap gap-2">
-                    {['Python', 'Decision Systems', 'Healthcare AI', 'Data Analysis'].map((tech) => (
-                      <span key={tech} className="px-2.5 py-1 bg-[var(--background-elevated)] border border-[var(--card-border)] rounded-lg text-xs font-mono text-[var(--text-muted)]">{tech}</span>
+                  <div className="flex flex-wrap gap-2 mt-4">
+                    {['Python', 'BERT', 'Transformers', 'Plotly', 'Dash', 'Pandas', 'NumPy'].map((tech) => (
+                      <span key={tech} className="px-2.5 py-1 bg-[var(--background-elevated)] border border-[var(--card-border)] rounded-lg text-xs font-mono text-[var(--text-secondary)] font-medium">
+                        {tech}
+                      </span>
                     ))}
                   </div>
                 </div>
@@ -427,75 +490,76 @@ export default function Home() {
       {/* Experience & Certifications */}
       <section id="experience" className="py-20 px-4 sm:px-6 lg:px-8">
         <div className="max-w-7xl mx-auto">
-          <h2 className="section-heading mb-10 animate-on-scroll">Experience & Certifications</h2>
+          <h2 className="section-heading mb-10 animate-on-scroll">Experience &amp; Certifications</h2>
 
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            {/* Experience Card */}
             <div className="card-base card-hover p-6 animate-on-scroll">
-              <h3 className="text-lg font-semibold mb-5 text-[var(--violet-300)]">Experience</h3>
-              <div className="space-y-4">
-                <div className="border-l-2 border-[var(--violet-500)] pl-5">
-                  <div className="font-semibold text-[var(--text-primary)]">Python Developer Intern</div>
-                  <div className="text-sm text-[var(--text-muted)] mb-2">2023 • 6 months</div>
-                  <div className="text-sm text-[var(--text-secondary)] space-y-1">
-                    <div>• Developed data processing pipelines using Python</div>
-                    <div>• Implemented automation scripts for system optimization</div>
-                    <div>• Collaborated on API development with cross-functional teams</div>
-                    <div>• Contributed to database design and optimization</div>
-                    <div>• Participated in code reviews and maintained documentation</div>
-                    
+              <h3 className="text-lg font-semibold mb-6 text-[var(--violet-300)] flex items-center gap-2">
+                <span>💼</span> Work Experience
+              </h3>
+              <div className="space-y-6">
+                <div className="border-l-2 border-[var(--violet-500)] pl-5 space-y-2">
+                  <div className="flex flex-wrap items-center justify-between gap-1">
+                    <div className="font-semibold text-[var(--text-primary)] text-base">Java Junior Developer</div>
+                    <span className="text-xs px-2.5 py-0.5 rounded-full bg-[var(--violet-950)] text-[var(--violet-300)] border border-[var(--violet-800)] font-medium">2 Dec 2025 – 31 Dec 2025</span>
                   </div>
+                  <div className="text-xs text-[var(--violet-400)] font-medium">Test Yantra Software Solutions</div>
+                  <ul className="text-xs text-[var(--text-secondary)] space-y-1.5 pt-1 list-disc pl-4">
+                    <li>Completed comprehensive training in Core Java, covering syntax, data types, control flow, arrays, strings, exception handling, and collections.</li>
+                    <li>Gained practical understanding of Object-Oriented Programming concepts including inheritance, polymorphism, abstraction, and encapsulation.</li>
+                  </ul>
                 </div>
-                <br></br>
-                <div className="border-l-2 border-[var(--violet-500)] pl-5">
-                  <div className="font-semibold text-[var(--text-primary)]">Java Intern</div>
-                  <div className="text-sm text-[var(--text-muted)] mb-2">Internpe • 2024</div>
-                  <div className="text-sm text-[var(--text-secondary)] space-y-1">
-                    <div>• Developed Java applications using Spring Boot framework</div>
-                    <div>• Implemented RESTful APIs and microservices architecture</div>
-                    <div>• Worked with MySQL database design and optimization</div>
-                    <div>• Participated in agile development methodologies</div>
-                    <div>• Collaborated with cross-functional teams for project delivery</div>
+
+                <div className="border-l-2 border-[var(--violet-500)] pl-5 space-y-2">
+                  <div className="flex flex-wrap items-center justify-between gap-1">
+                    <div className="font-semibold text-[var(--text-primary)] text-base">Python Developer Intern</div>
+                    <span className="text-xs px-2.5 py-0.5 rounded-full bg-[var(--violet-950)] text-[var(--violet-300)] border border-[var(--violet-800)] font-medium">Mar 2025 – Apr 2025</span>
                   </div>
+                  <div className="text-xs text-[var(--violet-400)] font-medium">Micro Tech Global Solutions</div>
+                  <ul className="text-xs text-[var(--text-secondary)] space-y-1.5 pt-1 list-disc pl-4">
+                    <li>Developed and maintained Python modules to support application functionality and data processing.</li>
+                    <li>Debugged existing code, performed unit testing, and improved code reliability while following Git-based version control and Agile development practices.</li>
+                  </ul>
                 </div>
               </div>
             </div>
 
+            {/* Certifications Card */}
             <div className="card-base card-hover p-6 animate-on-scroll">
-              <h3 className="text-lg font-semibold mb-5 text-[var(--violet-300)]">Certifications</h3>
+              <h3 className="text-lg font-semibold mb-6 text-[var(--violet-300)] flex items-center gap-2">
+                <span>📜</span> Certifications
+              </h3>
               <div className="space-y-3">
-                <div className="flex items-center gap-3 p-4 bg-[var(--background-elevated)] border border-[var(--card-border)] rounded-xl hover:border-[var(--card-border-hover)] transition-colors">
-                  <span className="text-2xl">🎓</span>
+                <div className="flex items-center gap-3.5 p-4 bg-[var(--background-elevated)] border border-[var(--card-border)] rounded-xl hover:border-[var(--card-border-hover)] transition-colors">
+                  <span className="text-2xl">☕</span>
                   <div>
-                    <div className="font-medium text-[var(--text-primary)]">NPTEL - Machine Learning</div>
-                    <div className="text-xs text-[var(--text-muted)]">IIT Kharagpur • 2025</div>
+                    <div className="font-medium text-sm text-[var(--text-primary)]">Java - Beginner to Master</div>
+                    <div className="text-xs text-[var(--text-muted)]">Udemy • 2026</div>
                   </div>
                 </div>
-                <div className="flex items-center gap-3 p-4 bg-[var(--background-elevated)] border border-[var(--card-border)] rounded-xl hover:border-[var(--card-border-hover)] transition-colors">
+
+                <div className="flex items-center gap-3.5 p-4 bg-[var(--background-elevated)] border border-[var(--card-border)] rounded-xl hover:border-[var(--card-border-hover)] transition-colors">
+                  <span className="text-2xl">🤖</span>
+                  <div>
+                    <div className="font-medium text-sm text-[var(--text-primary)]">UiPath Automation Developer Associate Training</div>
+                    <div className="text-xs text-[var(--text-muted)]">UiPath • 2026</div>
+                  </div>
+                </div>
+
+                <div className="flex items-center gap-3.5 p-4 bg-[var(--background-elevated)] border border-[var(--card-border)] rounded-xl hover:border-[var(--card-border-hover)] transition-colors">
                   <span className="text-2xl">🐍</span>
                   <div>
-                    <div className="font-medium text-[var(--text-primary)]">DSA in Python</div>
+                    <div className="font-medium text-sm text-[var(--text-primary)]">Data Structures &amp; Algorithms in Python</div>
                     <div className="text-xs text-[var(--text-muted)]">Udemy • 2025</div>
                   </div>
                 </div>
-                <div className="flex items-center gap-3 p-4 bg-[var(--background-elevated)] border border-[var(--card-border)] rounded-xl hover:border-[var(--card-border-hover)] transition-colors">
+
+                <div className="flex items-center gap-3.5 p-4 bg-[var(--background-elevated)] border border-[var(--card-border)] rounded-xl hover:border-[var(--card-border-hover)] transition-colors">
                   <span className="text-2xl">☁️</span>
                   <div>
-                    <div className="font-medium text-[var(--text-primary)]">AWS Cloud Support Associate</div>
-                    <div className="text-xs text-[var(--text-muted)]">Coursera • 2025</div>
-                  </div>
-                </div>
-                <div className="flex items-center gap-3 p-4 bg-[var(--background-elevated)] border border-[var(--card-border)] rounded-xl hover:border-[var(--card-border-hover)] transition-colors">
-                  <span className="text-2xl">☕</span>
-                  <div>
-                    <div className="font-medium text-[var(--text-primary)]">NPTEL - JAVA</div>
-                    <div className="text-xs text-[var(--text-muted)]">2024</div>
-                  </div>
-                </div>
-                <div className="flex items-center gap-3 p-4 bg-[var(--background-elevated)] border border-[var(--card-border)] rounded-xl hover:border-[var(--card-border-hover)] transition-colors">
-                  <span className="text-2xl">🗄️</span>
-                  <div>
-                    <div className="font-medium text-[var(--text-primary)]">Oracle Certified Foundations Associate</div>
-                    <div className="text-xs text-[var(--text-muted)]">2025</div>
+                    <div className="font-medium text-sm text-[var(--text-primary)]">AWS Cloud Support Associate</div>
+                    <div className="text-xs text-[var(--text-muted)]">AWS • 2025</div>
                   </div>
                 </div>
               </div>
@@ -504,7 +568,52 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Links Section - Violet-tinted cards */}
+      {/* Achievements & Activities Section */}
+      <section id="achievements" className="py-20 px-4 sm:px-6 lg:px-8">
+        <div className="max-w-7xl mx-auto">
+          <h2 className="section-heading mb-10 animate-on-scroll">Achievements &amp; Activities</h2>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div className="card-base card-hover p-6 animate-on-scroll">
+              <div className="flex items-start gap-4">
+                <div className="w-12 h-12 bg-gradient-to-br from-amber-500 to-amber-700 rounded-xl flex items-center justify-center text-xl flex-shrink-0 shadow-lg shadow-amber-500/20">
+                  🏆
+                </div>
+                <div>
+                  <div className="flex items-center justify-between gap-2 mb-1">
+                    <span className="text-xs px-2.5 py-0.5 rounded-full bg-[var(--violet-950)] text-[var(--violet-300)] border border-[var(--violet-800)] font-medium">1st Place Winner</span>
+                    <span className="text-xs text-[var(--text-muted)]">2026</span>
+                  </div>
+                  <h3 className="font-semibold text-[var(--text-primary)] text-base">Leo Summit Hack26</h3>
+                  <p className="text-xs text-[var(--text-secondary)] mt-2 leading-relaxed">
+                    Led a 3-member team to victory at Leo Summit Hack26, ranking 1st among 75 competing teams.
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <div className="card-base card-hover p-6 animate-on-scroll">
+              <div className="flex items-start gap-4">
+                <div className="w-12 h-12 bg-gradient-to-br from-[var(--violet-500)] to-[var(--fuchsia-500)] rounded-xl flex items-center justify-center text-xl flex-shrink-0 shadow-lg shadow-[var(--glow-violet)]/20">
+                  🏅
+                </div>
+                <div>
+                  <div className="flex items-center justify-between gap-2 mb-1">
+                    <span className="text-xs px-2.5 py-0.5 rounded-full bg-[var(--violet-950)] text-[var(--violet-300)] border border-[var(--violet-800)] font-medium">3rd Department Rank</span>
+                    <span className="text-xs text-[var(--text-muted)]">4th Semester</span>
+                  </div>
+                  <h3 className="font-semibold text-[var(--text-primary)] text-base">Academic Excellence &amp; Merit Award</h3>
+                  <p className="text-xs text-[var(--text-secondary)] mt-2 leading-relaxed">
+                    Secured 3rd Rank in the CSE Department (4th Semester) with a 9.05 GPA, earning a ₹10,000 Merit Award.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Social / Professional Links Section */}
       <section id="links" className="py-20 px-4 sm:px-6 lg:px-8">
         <div className="max-w-7xl mx-auto">
           <h2 className="section-heading mb-10 animate-on-scroll">Connect With Me</h2>
@@ -547,7 +656,7 @@ export default function Home() {
                 </div>
                 <div>
                   <div className="font-semibold text-[var(--text-primary)]">LeetCode</div>
-                  <div className="text-sm text-[var(--text-muted)]">100+ Problems</div>
+                  <div className="text-sm text-[var(--text-muted)]">300+ Problems</div>
                 </div>
               </div>
             </a>
@@ -572,7 +681,8 @@ export default function Home() {
                     onChange={handleInputChange}
                     placeholder="Your Name"
                     disabled={isSubmitting}
-                    className="w-full p-4 bg-[var(--background-elevated)] border border-[var(--card-border)] rounded-xl text-[var(--text-primary)] placeholder-[var(--text-muted)] focus:outline-none focus:border-[var(--violet-500)] focus:ring-2 focus:ring-[var(--violet-500)]/30 transition-all disabled:opacity-50"
+                    required
+                    className="w-full p-4 bg-[var(--background-elevated)] border border-[var(--card-border)] rounded-xl text-[var(--text-primary)] placeholder-[var(--text-muted)] focus:outline-none focus:border-[var(--violet-500)] focus:ring-2 focus:ring-[var(--violet-500)]/30 transition-all disabled:opacity-50 text-sm"
                   />
                   <input
                     type="email"
@@ -581,7 +691,8 @@ export default function Home() {
                     onChange={handleInputChange}
                     placeholder="Your Email"
                     disabled={isSubmitting}
-                    className="w-full p-4 bg-[var(--background-elevated)] border border-[var(--card-border)] rounded-xl text-[var(--text-primary)] placeholder-[var(--text-muted)] focus:outline-none focus:border-[var(--violet-500)] focus:ring-2 focus:ring-[var(--violet-500)]/30 transition-all disabled:opacity-50"
+                    required
+                    className="w-full p-4 bg-[var(--background-elevated)] border border-[var(--card-border)] rounded-xl text-[var(--text-primary)] placeholder-[var(--text-muted)] focus:outline-none focus:border-[var(--violet-500)] focus:ring-2 focus:ring-[var(--violet-500)]/30 transition-all disabled:opacity-50 text-sm"
                   />
                   <textarea
                     name="message"
@@ -590,22 +701,23 @@ export default function Home() {
                     placeholder="Your Message"
                     rows={4}
                     disabled={isSubmitting}
-                    className="w-full p-4 bg-[var(--background-elevated)] border border-[var(--card-border)] rounded-xl text-[var(--text-primary)] placeholder-[var(--text-muted)] focus:outline-none focus:border-[var(--violet-500)] focus:ring-2 focus:ring-[var(--violet-500)]/30 resize-none transition-all disabled:opacity-50"
+                    required
+                    className="w-full p-4 bg-[var(--background-elevated)] border border-[var(--card-border)] rounded-xl text-[var(--text-primary)] placeholder-[var(--text-muted)] focus:outline-none focus:border-[var(--violet-500)] focus:ring-2 focus:ring-[var(--violet-500)]/30 resize-none transition-all disabled:opacity-50 text-sm"
                   />
                   
                   {submitStatus === 'success' && (
-                    <div className="p-4 bg-green-100 border border-green-300 rounded-xl text-green-800">
+                    <div className="p-4 bg-green-950/40 border border-green-700/50 rounded-xl text-green-300 text-sm">
                       <div className="flex items-center gap-2">
                         <span>✓</span>
-                        <span>Message sent successfully! I'll get back to you soon.</span>
+                        <span>Message sent successfully! I will get back to you soon.</span>
                       </div>
                     </div>
                   )}
                   
                   {submitStatus === 'error' && (
-                    <div className="p-4 bg-red-100 border border-red-300 rounded-xl text-red-800">
+                    <div className="p-4 bg-red-950/40 border border-red-700/50 rounded-xl text-red-300 text-sm">
                       <div className="flex items-center gap-2">
-                        <span>✗</span>
+                        <span>✕</span>
                         <span>Failed to send message. Please try again or email directly.</span>
                       </div>
                     </div>
@@ -634,25 +746,35 @@ export default function Home() {
               <div>
                 <h3 className="text-lg font-semibold mb-5 text-[var(--violet-300)]">Contact Info</h3>
                 <div className="space-y-3">
-                  <div className="flex items-center gap-3 p-4 bg-[var(--background-elevated)] border border-[var(--card-border)] rounded-xl hover:border-[var(--card-border-hover)] transition-colors">
+                  <a href="mailto:avcusnatsovavictorjayaraj@gmail.com" className="flex items-center gap-3.5 p-4 bg-[var(--background-elevated)] border border-[var(--card-border)] rounded-xl hover:border-[var(--card-border-hover)] transition-colors block group">
                     <span className="text-xl">📧</span>
                     <div>
-                      <div className="text-sm font-medium text-[var(--text-primary)]">Email</div>
-                      <div className="text-sm text-[var(--text-muted)]">avcusnatsova@gmail.com</div>
+                      <div className="text-xs font-medium text-[var(--text-muted)]">Email</div>
+                      <div className="text-sm font-medium text-[var(--text-primary)] group-hover:text-[var(--violet-300)] transition-colors">avcusnatsovavictorjayaraj@gmail.com</div>
                     </div>
-                  </div>
-                  <div className="flex items-center gap-3 p-4 bg-[var(--background-elevated)] border border-[var(--card-border)] rounded-xl hover:border-[var(--card-border-hover)] transition-colors">
+                  </a>
+
+                  <a href="tel:+919344631519" className="flex items-center gap-3.5 p-4 bg-[var(--background-elevated)] border border-[var(--card-border)] rounded-xl hover:border-[var(--card-border-hover)] transition-colors block group">
+                    <span className="text-xl">📞</span>
+                    <div>
+                      <div className="text-xs font-medium text-[var(--text-muted)]">Phone</div>
+                      <div className="text-sm font-medium text-[var(--text-primary)] group-hover:text-[var(--violet-300)] transition-colors">+91 9344631519</div>
+                    </div>
+                  </a>
+
+                  <div className="flex items-center gap-3.5 p-4 bg-[var(--background-elevated)] border border-[var(--card-border)] rounded-xl hover:border-[var(--card-border-hover)] transition-colors">
                     <span className="text-xl">📍</span>
                     <div>
-                      <div className="text-sm font-medium text-[var(--text-primary)]">Location</div>
-                      <div className="text-sm text-[var(--text-muted)]">Chennai, India</div>
+                      <div className="text-xs font-medium text-[var(--text-muted)]">Location</div>
+                      <div className="text-sm font-medium text-[var(--text-primary)]">Chennai, Tamil Nadu</div>
                     </div>
                   </div>
-                  <div className="flex items-center gap-3 p-4 bg-[var(--background-elevated)] border border-[var(--card-border)] rounded-xl hover:border-[var(--card-border-hover)] transition-colors">
+
+                  <div className="flex items-center gap-3.5 p-4 bg-[var(--background-elevated)] border border-[var(--card-border)] rounded-xl hover:border-[var(--card-border-hover)] transition-colors">
                     <span className="text-xl">🎯</span>
                     <div>
-                      <div className="text-sm font-medium text-[var(--text-primary)]">Open for</div>
-                      <div className="text-sm text-[var(--text-muted)]">Internships, Research, Full-time roles</div>
+                      <div className="text-xs font-medium text-[var(--text-muted)]">Open for</div>
+                      <div className="text-sm font-medium text-[var(--text-primary)]">Internships, Full-time roles</div>
                     </div>
                   </div>
                 </div>
@@ -662,12 +784,17 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Footer - Violet accent line */}
+      {/* Footer */}
       <footer className="border-t border-[var(--card-border)] py-8 px-4 sm:px-6 lg:px-8 bg-[var(--background-elevated)]/50">
         <div className="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
           <p className="text-sm text-[var(--text-muted)]">
-            © 2025 Cusnat Sova. All rights reserved.
+            © 2026 A V Cusnat Sova. All rights reserved.
           </p>
+          <div className="flex items-center space-x-4 text-xs text-[var(--text-muted)]">
+            <span>Built with Next.js &amp; React</span>
+            <span>•</span>
+            <button onClick={() => scrollToSection('hero')} className="hover:text-[var(--violet-300)] transition-colors">Back to top ↑</button>
+          </div>
         </div>
       </footer>
     </div>

@@ -24,7 +24,7 @@ export async function POST(request: NextRequest) {
 
     const mailOptions = {
       from: process.env.SMTP_USER as string,
-      to: "avcusnatsova@gmail.com",
+      to: "avcusnatsovavictorjayaraj@gmail.com",
       subject: `Portfolio Contact - ${name}`,
       html: `
         <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
